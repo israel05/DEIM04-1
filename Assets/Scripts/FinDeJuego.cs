@@ -25,10 +25,6 @@ public class FinDeJuego : MonoBehaviour
         // Lanzar la animación            // que se desactiven los controles      // que se espere un rato   // Invoke("CargarMenuPrincipal", tiempoEsperaAntesDeMenuInicio);
         // que nos lleve al menú ppal             
     }
-    private void CargarMenuPrincipal()
-    {
-        Debug.Log("Cargando menu ppal desde muerte");
-        //SceneManager.LoadScene("EscenaMenuPPal");
-    }
+   
 
 }

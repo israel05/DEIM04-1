@@ -49,7 +49,7 @@ public class Actions : MonoBehaviour
         //asocio el animador
         animator = GetComponent<Animator>();
         //aparece al principio quieto
-        animator.SetFloat("Velocidad", 0f);
+        animator.SetFloat("Velocidad_goblin", 0f);
       
         controlGatetePersonalizado.JugadorGatete.Moverse.performed += Muevete;
         controlGatetePersonalizado.JugadorGatete.Moverse.canceled += Deteniendo;

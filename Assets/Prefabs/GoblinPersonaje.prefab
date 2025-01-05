@@ -244,7 +244,7 @@ Animator:
   m_GameObject: {fileID: 8900609992912515831}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: c0c6f154405b1764e82d60dcad8622ea, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -268,9 +268,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   velocidad: 1
-  pasos: {fileID: 0}
+  pasos: {fileID: 3942645888811967841}
   velocidadMovimiento: 4
-  dragPersonaje: 1
+  dragPersonaje: 2
 --- !u!82 &3942645888811967841
 AudioSource:
   m_ObjectHideFlags: 0
