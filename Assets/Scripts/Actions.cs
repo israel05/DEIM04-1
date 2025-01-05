@@ -15,8 +15,8 @@ public class Actions : MonoBehaviour
     Rigidbody2D rbJugador;
     SpriteRenderer srJugador;
     bool miraALaDerecha = true;
+   
 
-    
 
 
      ControlGatete controlGatetePersonalizado;
@@ -46,7 +46,9 @@ public class Actions : MonoBehaviour
         pasos.Stop();
         controlGatetePersonalizado = new ControlGatete();
         controlGatetePersonalizado.JugadorGatete.Enable();
+        //asocio el animador
         animator = GetComponent<Animator>();
+        //aparece al principio quieto
         animator.SetFloat("Velocidad", 0f);
       
         controlGatetePersonalizado.JugadorGatete.Moverse.performed += Muevete;
@@ -58,14 +60,12 @@ public class Actions : MonoBehaviour
 
     private void Deteniendo(InputAction.CallbackContext context)
     {
-        rbJugador.drag = dragPersonaje;
-        pasos.Stop();
-
-
+        if (rbJugador!= null) //podría darse el caso de que se hubiera destruido el jugador
+        {
+            rbJugador.drag = dragPersonaje;
+            pasos.Stop();
+        }   
     }
-
-
-
 
 
     void Muevete(InputAction.CallbackContext ctx)
@@ -100,7 +100,24 @@ public class Actions : MonoBehaviour
     {
         // se ha pulsado la F
         print("USo algo");
-        
+        // si tengo cinco vidas
+        // si estoy en la meta
+
+        if (Singleton.Instance.TocandoMeta && Singleton.Instance.PuntosDeJugador >= 5) //si estoy tocando y tengo 5 puntos
+        {
+            print("TELEPORT");
+            Singleton.Instance.SaltoDeNivel();
+        } else
+        {
+            print("NO PUEDES TELEPORTAR");
+            print("estas tocando meta?" + Singleton.Instance.TocandoMeta.ToString());
+            print("tienes suficientes tesoros?" + Singleton.Instance.PuntosDeJugador.ToString());
+        }
+
+       
+
+
+
     }
 
 
@@ -110,27 +127,33 @@ public class Actions : MonoBehaviour
 
         if (collision.gameObject.tag == "Sierra")
         {
-            print("HAS MUERTO");
+            
            // Invoke("Muerto", 4f);
         }
+        if (collision.gameObject.tag == "Zombie")
+        {
+          
+            // Invoke("Muerto", 4f);
+        }
+
 
         if (collision.gameObject.tag == "cofre")
         {
-            print("ES UN COFRE");
+           
         }
-
+        // si hubiera sido un collider, pero es un trigger
+       /*
         if(collision.gameObject.tag == "Meta")
         {
-            // Invoke("CargarNivelFinal", 4f);
-
-            print("ES UNA META");
+            tocandoMeta = true;
+            print("Colision con Meta");
+        } else
+        {
+            tocandoMeta = false;
         }
+       */
     }
 
-    private void Muerto()
-    {
-       // GameManager.Destroy(this);
-    }
-
+  
    
 }

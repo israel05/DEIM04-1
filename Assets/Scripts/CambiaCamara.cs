@@ -27,7 +27,8 @@ public class CambiaCamara : MonoBehaviour
         yield return new  WaitForSeconds(6f);
         camaraPerrete.SetActive(true);
         camaraMeta.SetActive(false);
-        
+        gameObject.SetActive(false);
+
     }
 
 }

@@ -89,9 +89,28 @@ public class PaseosZombie : MonoBehaviour
     void Animador()
     {
             //se esta moviendo
-            GetComponent<Animator>().SetFloat("Velocidad", 3);
+            GetComponent<Animator>().SetFloat("Velocidad", 3);      
 
-       
+    }
+
+
+    /**
+     * Este método se llama cuando el objeto entra en colisión con otro objeto, en al tocar el zombie con el jugador
+     * retara una vida, en el GAmeManager si la vida es cero disparara fin de juego
+     */
+    void OnCollisionEnter2D(Collision2D objetoColisionado)
+    {
+
+       // AudioSource.PlayClipAtPoint(soniditoDeRecogidaDeObjeto, transform.position);
+        Debug.Log("Te has chocado con un zombie");
+        // notifica en el gameManager que se ha recogido un objeto
+        Singleton.Instance.RestaVidas();
+        // yo soy destruido
+        //  if (objetoColisionado.gameObject != gameObject)
+        //  {
+        //   // Destroy the game object
+        //    Destroy(gameObject);
+        //  }
 
     }
 }

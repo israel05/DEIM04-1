@@ -80,4 +80,25 @@ public class PaseosSierra : MonoBehaviour
         }
         rbSierra.MovePosition(rbSierra.position + speed * Time.deltaTime * direccion2D);
     }
+
+
+    /**
+    * Este método se llama cuando el objeto entra en colisión con otro objeto, en al tocar la sierra con el jugador
+    * retara una vida, en el GAmeManager si la vida es cero disparara fin de juego
+    */
+    void OnCollisionEnter2D(Collision2D objetoColisionado)
+    {
+
+        // AudioSource.PlayClipAtPoint(soniditoDeRecogidaDeObjeto, transform.position);
+        Debug.Log("Te has chocado con una sierra");
+        // notifica en el gameManager que se ha recogido un objeto
+        Singleton.Instance.RestaVidas();
+        // yo soy destruido
+        //  if (objetoColisionado.gameObject != gameObject)
+        //  {
+        //   // Destroy the game object
+        //    Destroy(gameObject);
+        //  }
+
+    }
 }

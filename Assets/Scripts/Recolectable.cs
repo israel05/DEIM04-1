@@ -9,10 +9,6 @@ public class Recolectable : MonoBehaviour
     [SerializeField] AudioClip soniditoDeRecogidaDeObjeto; // La música de moneda recogida
 
 
-    [SerializeField] TMP_Text puntuacionTMP;// el canvas del marcador
-
-    [SerializeField] int puntuacionNumerica = 10; //el valor del item recogido
-
     
 
     // Start is called before the first frame update
@@ -33,8 +29,7 @@ public class Recolectable : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         GetComponent<Animator>().Play("palpito");
-        Debug.Log("trigger enter 2d");
-        Debug.Log("trigger enter 2d");
+        Debug.Log("trigger enter 2d");     
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -48,16 +43,12 @@ public class Recolectable : MonoBehaviour
 
 
     void OnCollisionEnter2D(Collision2D objetoColisionado)
-    {
-       
+    {      
 
         AudioSource.PlayClipAtPoint(soniditoDeRecogidaDeObjeto, transform.position);
-        Debug.Log("Te has chocado conmigo");
-       float resultadoAcumulador = puntuacionNumerica + float.Parse(puntuacionTMP.text);
-       puntuacionTMP.text = resultadoAcumulador.ToString();
-
-
-        // al contador de células, uno más
+        Debug.Log("Te has chocado con un cofre");
+        // notifica en el gameManager que se ha recogido un objeto
+        Singleton.Instance.SumaPuntos();
         // yo soy destruido
         if (objetoColisionado.gameObject != gameObject)
         {
