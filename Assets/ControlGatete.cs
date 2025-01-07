@@ -29,12 +29,12 @@ public partial class @ControlGatete: IInputActionCollection2, IDisposable
             ""actions"": [
                 {
                     ""name"": ""Moverse"",
-                    ""type"": ""Button"",
+                    ""type"": ""Value"",
                     ""id"": ""74c3abcc-9295-4f7c-b191-6a476ed00b98"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": false
+                    ""initialStateCheck"": true
                 },
                 {
                     ""name"": ""Usar"",

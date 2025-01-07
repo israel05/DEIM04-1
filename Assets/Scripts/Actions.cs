@@ -1,29 +1,18 @@
-
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine.InputSystem.Utilities;
-using UnityEngine.SceneManagement;
-
 
 public class Actions : MonoBehaviour
 {
     Animator animator;
-    public float velocidad = 0f;
     Rigidbody2D rbJugador;
     SpriteRenderer srJugador;
     bool miraALaDerecha = true;
-   
-
-
-
-     ControlGatete controlGatetePersonalizado;
+    ControlGatete controlGatetePersonalizado;
 
     [SerializeField] private AudioSource pasos;
     [SerializeField] private float velocidadMovimiento = 4f;
-    [SerializeField] private float dragPersonaje = 1f;
+    [SerializeField] private float dragPersonaje = 4f;
 
     // Start is called before the first frame update
     void Start()
@@ -31,129 +20,79 @@ public class Actions : MonoBehaviour
         rbJugador = GetComponent<Rigidbody2D>();
         srJugador = GetComponent<SpriteRenderer>();
         pasos = GetComponent<AudioSource>();
+        pasos.Stop();
     }
 
     private void FixedUpdate()
     {
+        // Esto asegura que el valor de la velocidad se actualice en cada frame.
+        Vector2 input = controlGatetePersonalizado.JugadorGatete.Moverse.ReadValue<Vector2>(); // Se lee la entrada en cada frame.
         animator.SetFloat("Velocidad_goblin", Mathf.Max(Mathf.Abs(rbJugador.velocity.x), Mathf.Abs(rbJugador.velocity.y)));
         rbJugador.drag = dragPersonaje;
-    }
 
-
-    void Awake()
-    {
-
-        pasos.Stop();
-        controlGatetePersonalizado = new ControlGatete();
-        controlGatetePersonalizado.JugadorGatete.Enable();
-        //asocio el animador
-        animator = GetComponent<Animator>();
-        //aparece al principio quieto
-        animator.SetFloat("Velocidad_goblin", 0f);
-      
-        controlGatetePersonalizado.JugadorGatete.Moverse.performed += Muevete;
-        controlGatetePersonalizado.JugadorGatete.Moverse.canceled += Deteniendo;
-        controlGatetePersonalizado.JugadorGatete.Usar.performed += Usar;
-
-        miraALaDerecha = true;
-    }
-
-    private void Deteniendo(InputAction.CallbackContext context)
-    {
-        if (rbJugador!= null) //podría darse el caso de que se hubiera destruido el jugador
-        {
-            rbJugador.drag = dragPersonaje;
-            pasos.Stop();
-        }   
-    }
-
-
-    void Muevete(InputAction.CallbackContext ctx)
-    {
-        pasos.Play();
-        Vector2 input = ctx.ReadValue<Vector2>();        
-        float movementSpeed = velocidadMovimiento;        
         if (input.magnitude > 1)
         {
-            input.Normalize(); // Normalize if the input exceeds length 1 to prevent faster movement on diagonal
+            input.Normalize(); // Normaliza para evitar movimientos más rápidos en diagonal
         }
-        // Set the player's velocity with the input
-        rbJugador.velocity = new Vector2(input.x * movementSpeed, input.y * movementSpeed);      
-        rbJugador.drag = dragPersonaje - dragPersonaje; // cero
 
-        // Handle character flip (left/right)
+        // Movimiento continuo
+        rbJugador.velocity = new Vector2(input.x * velocidadMovimiento, input.y * velocidadMovimiento);
+
+        // Reproducir el sonido de pasos solo si el jugador está moviéndose
+        if (input.magnitude > 0.1f && !pasos.isPlaying)
+        {
+            pasos.Play();
+        }
+        else if (input.magnitude <= 0.1f && pasos.isPlaying)
+        {
+            pasos.Stop();
+        }
+
+        // Manejar el giro del personaje
         if (input.x < 0 && miraALaDerecha)
         {
             srJugador.flipX = true;
             miraALaDerecha = false;
         }
-        if (input.x > 0 && !miraALaDerecha)
+        else if (input.x > 0 && !miraALaDerecha)
         {
             srJugador.flipX = false;
             miraALaDerecha = true;
         }
     }
 
+    void Awake()
+    {
+        controlGatetePersonalizado = new ControlGatete();
+        controlGatetePersonalizado.JugadorGatete.Enable();
+        // Asocia el animador
+        animator = GetComponent<Animator>();
+        // Inicializa el animador en reposo al principio
+        animator.SetFloat("Velocidad_goblin", 0f);
 
+        controlGatetePersonalizado.JugadorGatete.Usar.performed += Usar;
+    }
 
     void Usar(InputAction.CallbackContext ctx)
     {
-        // se ha pulsado la F
+        // Código para cuando se usa la tecla de acción (por ejemplo, la tecla 'F')
         print("USo algo");
-        // si tengo cinco vidas
-        // si estoy en la meta
-
-        if (Singleton.Instance.TocandoMeta && Singleton.Instance.PuntosDeJugador >= 5) //si estoy tocando y tengo 5 puntos
+        if (Singleton.Instance.TocandoMeta && Singleton.Instance.PuntosDeJugador >= 5)
         {
             print("TELEPORT");
             Singleton.Instance.SaltoDeNivel();
-        } else
+        }
+        else
         {
             print("NO PUEDES TELEPORTAR");
             print("estas tocando meta?" + Singleton.Instance.TocandoMeta.ToString());
             print("tienes suficientes tesoros?" + Singleton.Instance.PuntosDeJugador.ToString());
         }
-
-       
-
-
-
     }
-
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        print("COLISIONO CON : "+collision.gameObject.name);
-
-        if (collision.gameObject.tag == "Sierra")
-        {
-            
-           // Invoke("Muerto", 4f);
-        }
-        if (collision.gameObject.tag == "Zombie")
-        {
-          
-            // Invoke("Muerto", 4f);
-        }
-
-
-        if (collision.gameObject.tag == "cofre")
-        {
-           
-        }
-        // si hubiera sido un collider, pero es un trigger
-       /*
-        if(collision.gameObject.tag == "Meta")
-        {
-            tocandoMeta = true;
-            print("Colision con Meta");
-        } else
-        {
-            tocandoMeta = false;
-        }
-       */
+        // Manejo de colisiones (puedes agregar más lógica aquí)
+        print("COLISIONO CON : " + collision.gameObject.name);
     }
-
-  
-   
 }
