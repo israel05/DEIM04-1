@@ -11872,6 +11872,7 @@ MonoBehaviour:
   canvasFinDeJuego: {fileID: 30515080}
   musicaGameOver: {fileID: 8300000, guid: 47cf1a4a2d2b5104b9390a49a1d59ea8, type: 3}
   imagenSaltoNivel: {fileID: 2022232308}
+  animatorJugador: {fileID: 1615860064}
   barraDeVida: {fileID: 1729999303}
 --- !u!1 &1477093076
 GameObject:
@@ -12109,6 +12110,11 @@ Transform:
 --- !u!1 &1615860063 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8900609992912515831, guid: 970f9609bec9de34eb98dfc29448ee20, type: 3}
+  m_PrefabInstance: {fileID: 630399980}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &1615860064 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 8162156516555226516, guid: 970f9609bec9de34eb98dfc29448ee20, type: 3}
   m_PrefabInstance: {fileID: 630399980}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1724916033

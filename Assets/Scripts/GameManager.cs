@@ -18,7 +18,7 @@ public class Singleton : MonoBehaviour
     [SerializeField] GameObject canvasFinDeJuego; // El canvas de fin De Juego
     [SerializeField] AudioClip musicaGameOver; // La música de final de juego
     [SerializeField] GameObject imagenSaltoNivel;
-
+    [SerializeField]  Animator animatorJugador;
 
     [SerializeField] GameObject barraDeVida; // El canvas de fin De Juego
     private RectTransform barraRectTransform;
@@ -83,17 +83,15 @@ public class Singleton : MonoBehaviour
 
     public void Muerte()
     {
-        //que se desactive el jugador
-        Destroy(jugador);
-        //que se muestre una pantalla de gameOver
-        canvasFinDeJuego.SetActive(true);
-        // que se dispare la animación del canvan
-        // que se ponga el menu ppal
-        //que se ponga una musica de gameover
+       
+        animatorJugador.SetBool("Muerto",true);
+
+        //canvasFinDeJuego.SetActive(true);
+        
         AudioSource.PlayClipAtPoint(musicaGameOver, transform.position);
-        // que se espere un rato
+      
+        //Destroy(jugador);
         Invoke("CargarMenuPrincipal", 4f); //cuatro y nos vamos
-        // que nos lleve al menú ppal
     }
 
 
